@@ -23,16 +23,16 @@ BUTTONS = bool(os.environ.get('BUTTONS', False)) # Upload mode. If True: will se
 # Buttons
 START_BUTTONS=[
     [
-        InlineKeyboardButton("Source", url="https://github.com/X-Gorn/BulkLoader"),
-        InlineKeyboardButton("LinkTree", url="https://xgorn.is-a.dev"),
+        InlineKeyboardButton("Thunder Dev ⚡", url="https://t.me/thunder_developer"),
+        InlineKeyboardButton("Group", url="https://t.me/+35W2km3zHeUyYjI1"),
     ],
-    [InlineKeyboardButton("Author", url="https://t.me/xgorn")],
+    [InlineKeyboardButton("Black", url="Black")],
 ]
 
 CB_BUTTONS=[
     [
-        InlineKeyboardButton("Zip", callback_data="zip"),
-        InlineKeyboardButton("One by one", callback_data="1by1"),
+        InlineKeyboardButton("Zip", callback_data="zip 🤐"),
+        InlineKeyboardButton("One by one ☝️", callback_data="1by1"),
     ]
 ]
 

@@ -396,6 +396,64 @@ async def callbacks(bot: Client, updatex: CallbackQuery):
         await pablo.delete()
         shutil.rmtree(dirs)
 
+# Modify the start message handler to include information about the new features
+@xbot.on_message(filters.command('start') & OWNER_FILTER & filters.private)
+async def start(bot, update):
+    await update.reply_text(f"I'm BulkLoader\nYou can upload list of urls\n\nTo bulk download, use /link command and then send URLs or a text file containing URLs.\nTo rename files, use /rename command.", True, reply_markup=InlineKeyboardMarkup(START_BUTTONS))
+
+# Add a new command to handle bulk downloads
+@xbot.on_message(filters.command('link') & OWNER_FILTER & filters.private)
+async def linkloader(bot, update):
+    xlink = await update.chat.ask('Send your links, separated each link by new line or upload a text file containing URLs', filters=filters.text | filters.document, timeout=300)
+    urls = []
+    if xlink.text:
+        urls = xlink.text.split('\n')
+    elif xlink.document:
+        file_path = await xlink.download()
+        with open(file_path, 'r') as file:
+            urls = file.readlines()
+    # Download and send the files
+    await download_and_send_files(urls, update)
+
+# Function to download and send files
+async def download_and_send_files(urls, update):
+    # Download files
+    downloaded_files = []
+    for url in urls:
+        # Download the file
+        # Add logic to download the file based on the URL
+        downloaded_files.append(downloaded_file_path)
+    
+    # Rename files
+    renamed_files = []
+    for file in downloaded_files:
+        # Rename the file
+        # Add logic to rename the file based on user input
+        renamed_files.append(renamed_file_path)
+    
+    # Send renamed files
+    for file in renamed_files:
+        # Send the file
+        # Add logic to send the file to the user
+
+# Add a new command to handle file renaming
+@xbot.on_message(filters.command('rename') & OWNER_FILTER & filters.private)
+async def rename_files(bot, update):
+    # Ask the user for the new names
+    await update.reply_text("Please enter new names for the files, separated by new lines.")
+    new_names = await update.chat.get_reply()
+
+    # Rename the files
+    renamed_files = []
+    for file in downloaded_files:
+        # Rename the file
+        # Add logic to rename the file based on the new names provided by the user
+        renamed_files.append(renamed_file_path)
+    
+    # Send renamed files
+    for file in renamed_files:
+        # Send the file
+        # Add logic to send the file to the user
 
 
 xbot.run()

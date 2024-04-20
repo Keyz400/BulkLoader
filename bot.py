@@ -171,7 +171,7 @@ async def send_media(file_name: str, update: Message) -> bool:
 
 
 async def download_file(url, dl_path):
-    if "psitoffers.store/testkey.php?vid=" in url:
+    if "https://psitoffers.store/testkey.php?vid=" in url:
         video_id = url.split("=")[-1]
         url = f"https://d1d34p8vz63oiq.cloudfront.net/{video_id}/master.m3u8"
     

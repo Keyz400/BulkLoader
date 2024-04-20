@@ -1,4 +1,11 @@
-import os, time, math, shutil, pyromod.listen, asyncio, random, shlex
+import os
+import time
+import math
+import shutil
+import pyromod.listen
+import asyncio
+import random
+import shlex
 from urllib.parse import unquote
 from urllib.error import HTTPError
 from pyrogram import Client, filters
@@ -23,16 +30,16 @@ BUTTONS = bool(os.environ.get('BUTTONS', False)) # Upload mode. If True: will se
 # Buttons
 START_BUTTONS=[
     [
-        InlineKeyboardButton("Thunder Dev ⚡", url="https://t.me/thunder_developer"),
-        InlineKeyboardButton("Group", url="https://t.me/+35W2km3zHeUyYjI1"),
+        InlineKeyboardButton("Source", url="https://github.com/X-Gorn/BulkLoader"),
+        InlineKeyboardButton("LinkTree", url="https://xgorn.is-a.dev"),
     ],
-    [InlineKeyboardButton("Black", url="Black")],
+    [InlineKeyboardButton("Author", url="https://t.me/xgorn")],
 ]
 
 CB_BUTTONS=[
     [
-        InlineKeyboardButton("Zip", callback_data="zip 🤐"),
-        InlineKeyboardButton("One by one ☝️", callback_data="1by1"),
+        InlineKeyboardButton("Zip", callback_data="zip"),
+        InlineKeyboardButton("One by one", callback_data="1by1"),
     ]
 ]
 
@@ -60,8 +67,8 @@ async def progress_for_pyrogram(
         estimated_total_time = TimeFormatter(milliseconds=estimated_total_time)
 
         progress = "[{0}{1}] \nP: {2}%\n".format(
-            ''.join(["🥝" for i in range(math.floor(percentage / 5))]),
-            ''.join(["🍉" for i in range(20 - math.floor(percentage / 5))]),
+            ''.join(["█" for i in range(math.floor(percentage / 5))]),
+            ''.join(["░" for i in range(20 - math.floor(percentage / 5))]),
             round(percentage, 2))
 
         tmp = progress + "{0} of {1}\nSpeed: {2}/s\nETA: {3}\n".format(
@@ -164,6 +171,10 @@ async def send_media(file_name: str, update: Message) -> bool:
 
 
 async def download_file(url, dl_path):
+    if "psitoffers.store/testkey.php?vid=" in url:
+        video_id = url.split("=")[-1]
+        url = f"https://d1d34p8vz63oiq.cloudfront.net/{video_id}/master.m3u8"
+    
     command = [
         'yt-dlp',
         '-f', 'best',
@@ -215,7 +226,7 @@ async def linkloader(bot, update):
         os.makedirs(dirs)
     output_filename = str(update.from_user.id)
     filename = f'{dirs}/{output_filename}.zip'
-    pablo = await update.reply_text('⚡Downloading...')
+    pablo = await update.reply_text('Downloading...')
     urlx = xlink.text.split('\n')
     rm, total, up = len(urlx), len(urlx), 0
     await pablo.edit_text(f"Total: {total}\nDownloaded: {up}\nDownloading: {rm}")
@@ -227,7 +238,7 @@ async def linkloader(bot, update):
             await pablo.edit_text(f"Total: {total}\nDownloaded: {up}\nDownloading: {rm}")
         except BadRequest:
             pass
-    await pablo.edit_text('🚄Uploading...')
+    await pablo.edit_text('Uploading...')
     if AS_ZIP == True:
         shutil.make_archive(output_filename, 'zip', dirs)
         start_time = time.time()
@@ -235,7 +246,7 @@ async def linkloader(bot, update):
             filename,
             progress=progress_for_pyrogram,
             progress_args=(
-                '🚄Uploading...',
+                'Uploading...',
                 pablo,
                 start_time
             )
@@ -273,7 +284,7 @@ async def loader(bot, update):
         return
     output_filename = update.document.file_name[:-4]
     filename = f'{dirs}/{output_filename}.zip'
-    pablo = await update.reply_text('⚡Downloading...')
+    pablo = await update.reply_text('Downloading...')
     fl = await update.download()
     with open(fl) as f:
         urls = f.read()
@@ -288,7 +299,7 @@ async def loader(bot, update):
                 await pablo.edit_text(f"Total: {total}\nDownloaded: {up}\nDownloading: {rm}")
             except BadRequest:
                 pass
-    await pablo.edit_text('🚄Uploading...')
+    await pablo.edit_text('Uploading...')
     os.remove(fl)
     if AS_ZIP == True:
         shutil.make_archive(output_filename, 'zip', dirs)
@@ -297,7 +308,7 @@ async def loader(bot, update):
             filename,
             progress=progress_for_pyrogram,
             progress_args=(
-                '🚄Uploading...',
+                'Uploading...',
                 pablo,
                 start_time
             )
@@ -392,10 +403,10 @@ async def callbacks(bot: Client, updatex: CallbackQuery):
                 await pablo.edit_text(f"Total: {total}\nUploaded: {up}\nUploading: {rm}")
             except BadRequest:
                 pass
-            time.sleep(5)
+            time.sleep(1)
         await pablo.delete()
         shutil.rmtree(dirs)
 
 
-
 xbot.run()
+        
